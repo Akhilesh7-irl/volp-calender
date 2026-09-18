@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+.venv/
+
+# Environment variables
+.env
+
+# Google credentials
+google-service-account.json
+*.json.key
+
+# Local state
+# Uncomment this if you DON'T want local sync state committed
+# synced_assignments.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,59 @@
+name: VOLP Calendar Sync
+
+on:
+
+  # Run every 6 hours
+  schedule:
+    - cron: "0 */6 * * *"
+
+  # Allows us to manually run it
+  workflow_dispatch:
+
+jobs:
+
+  sync:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Create Google credentials
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+        run: |
+          echo "$GOOGLE_SERVICE_ACCOUNT" > google-service-account.json
+
+      - name: Run VOLP sync
+        env:
+          VOLP_USERNAME: ${{ secrets.VOLP_USERNAME }}
+          VOLP_PASSWORD: ${{ secrets.VOLP_PASSWORD }}
+          GOOGLE_CREDENTIALS_FILE: google-service-account.json
+          GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
+        run: |
+          python main.py
+
+      - name: Save sync state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add synced_assignments.json
+
+          git diff --cached --quiet || git commit -m "Update synced assignments"
+
+          git push
