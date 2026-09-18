@@ -24,3 +24,7 @@ google-service-account.json
 # OS
 .DS_Store
 Thumbs.db
+
+.env
+*.json
+__pycache__/
