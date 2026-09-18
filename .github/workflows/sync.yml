@@ -1,12 +1,8 @@
 name: VOLP Calendar Sync
 
 on:
-
-  # Run every 6 hours
   schedule:
-    - cron: "0 */6 * * *"
-
-  # Allows us to manually run it
+    - cron: "0 16 * * *"
   workflow_dispatch:
 
 jobs:
@@ -34,7 +30,7 @@ jobs:
 
       - name: Create Google credentials
         env:
-          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_B64 }}
         run: |
           echo "$GOOGLE_SERVICE_ACCOUNT" > google-service-account.json
 
