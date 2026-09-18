@@ -30,9 +30,9 @@ jobs:
 
       - name: Create Google credentials
         env:
-          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_B64 }}
+          GOOGLE_SERVICE_ACCOUNT_B64: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_B64 }}
         run: |
-          echo "$GOOGLE_SERVICE_ACCOUNT" > google-service-account.json
+          echo "$GOOGLE_SERVICE_ACCOUNT_B64" | base64 --decode > google-service-account.json
 
       - name: Run VOLP sync
         env:
